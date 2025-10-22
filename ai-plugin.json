@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Offshore Intelligence API",
+  "name_for_model": "offshore_intelligence_api",
+  "description_for_human": "Retrieve offshore wind project data and live offshore wind news.",
+  "description_for_model": "Provides offshore wind backlog data and live RSS headlines from offshorewind.biz for use in market reports and analyses.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://offshore-intelligence-api-v2.onrender.com/openapi.yaml"
+  },
+  "logo_url": "https://offshorewind.biz/wp-content/themes/offshorewindbiz/favicon.ico",
+  "contact_email": "info@offshorewindintel.com",
+  "legal_info_url": "https://offshorewind.biz/privacy-policy/"
+}
