@@ -1,3 +1,57 @@
+from flask import Flask, jsonify, Response
+import feedparser
+
+app = Flask(__name__)
+
+# -------------------------------------------------
+# Root route
+# -------------------------------------------------
+@app.route("/")
+def home():
+    return jsonify({"message": "🌊 Offshore Intelligence API v2 is running and ready to serve data."})
+
+# -------------------------------------------------
+# Example backlog endpoint
+# -------------------------------------------------
+@app.route("/api/backlog")
+def backlog():
+    data = [
+        {
+            "project": "Hollandse Kust West",
+            "contractor": "Van Oord",
+            "foundation_type": "Monopile",
+            "status": "planned",
+            "region": "North Sea"
+        },
+        {
+            "project": "Dogger Bank C",
+            "contractor": "SSE Renewables",
+            "foundation_type": "Jacket",
+            "status": "under_construction",
+            "region": "UK North Sea"
+        }
+    ]
+    return jsonify(data)
+
+# -------------------------------------------------
+# Offshore wind news via RSS
+# -------------------------------------------------
+@app.route("/api/news")
+def news():
+    rss_url = "https://www.offshorewind.biz/feed/"
+    feed = feedparser.parse(rss_url)
+    articles = []
+    for entry in feed.entries[:5]:
+        articles.append({
+            "title": entry.title,
+            "link": entry.link,
+            "published": entry.published
+        })
+    return jsonify({"source": "offshorewind.biz", "articles": articles})
+
+# -------------------------------------------------
+# OpenAPI YAML Spec
+# -------------------------------------------------
 @app.route("/openapi.yaml")
 def openapi_yaml():
     yaml_text = """openapi: 3.1.0
@@ -70,3 +124,9 @@ paths:
                           example: 2025-10-22T10:00:00Z
 """
     return Response(yaml_text, mimetype="application/yaml")
+
+# -------------------------------------------------
+# Run locally
+# -------------------------------------------------
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
